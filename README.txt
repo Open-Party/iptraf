@@ -4,7 +4,7 @@ SOURCE:
 
 
 NOTICE:
-- iptraf need libncurses5-dev
+- iptraf need libncurses5-dev (my platform is debian "squeeze")
 
 
 TODO:
