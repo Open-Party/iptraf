@@ -547,17 +547,37 @@ void update_flowrate(WINDOW * win, struct tcptableent *entry, time_t now,
     wattrset(win, IPSTATLABELATTR);
     mvwprintw(win, 0, COLS * 47 / 80, "TCP flow rate: ");
     wattrset(win, IPSTATATTR);
-    if (mode == KBITS) {
-        strcpy(units, "kbits/s");
-        rate =
-            (float) (entry->spanbr * 8 / 1000) / (float) (now -
-                                                          entry->
-                                                          starttime);
-    } else {
-        strcpy(units, "kbytes/s");
-        rate =
-            (float) (entry->spanbr / 1024) / (float) (now -
-                                                      entry->starttime);
+    switch (mode) {
+        case ACTIVITY_MODE_KBITS:
+            strcpy(units, "kbits/s");
+            rate = (float) (entry->spanbr * 8 / 1000)
+                 / (float) (now - entry->starttime);
+            break;
+        case ACTIVITY_MODE_KBYTES:
+            strcpy(units, "kbytes/s");
+            rate = (float) (entry->spanbr / 1024)
+                 / (float) (now - entry->starttime);
+            break;
+        case ACTIVITY_MODE_MBITS:
+            strcpy(units, "mbits/s");
+            rate = (float) (entry->spanbr * 8 / 1000 / 1000)
+                 / (float) (now - entry->starttime);
+            break;
+        case ACTIVITY_MODE_MBYTES:
+            strcpy(units, "mbytes/s");
+            rate = (float) (entry->spanbr / 1024 / 1024)
+                 / (float) (now - entry->starttime);
+            break;
+        case ACTIVITY_MODE_GBITS:
+            strcpy(units, "gbits/s");
+            rate = (float) (entry->spanbr * 8 / 1000 / 1000 / 1000)
+                 / (float) (now - entry->starttime);
+            break;
+        case ACTIVITY_MODE_GBYTES:
+            strcpy(units, "gbytes/s");
+            rate = (float) (entry->spanbr / 1024 / 1024 / 1024)
+                 / (float) (now - entry->starttime);
+            break;
     }
     mvwprintw(win, 0, COLS * 50 / 80 + 13, "%8.2f %s", rate, units);
     entry->spanbr = 0;

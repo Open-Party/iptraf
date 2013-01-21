@@ -379,20 +379,43 @@ void updateethrates(struct ethtab *table, int unit, time_t starttime,
     while (ptmp != NULL) {
         if (ptmp->type == 1) {
             ptmp->un.figs.past5 = 1;
-            if (unit == KBITS) {
-                ptmp->un.figs.inrate =
-                    ((float) (ptmp->un.figs.inspanbr * 8 / 1000)) /
-                    ((float) (now - starttime));
-                ptmp->un.figs.outrate =
-                    ((float) (ptmp->un.figs.outspanbr * 8 / 1000)) /
-                    ((float) (now - starttime));
-            } else {
-                ptmp->un.figs.inrate =
-                    ((float) (ptmp->un.figs.inspanbr / 1024)) /
-                    ((float) (now - starttime));
-                ptmp->un.figs.outrate =
-                    ((float) (ptmp->un.figs.outspanbr / 1024)) /
-                    ((float) (now - starttime));
+            switch (unit) {
+                case ACTIVITY_MODE_KBITS:
+                    ptmp->un.figs.inrate  = ((float) (ptmp->un.figs.inspanbr * 8 / 1000))
+                                          / ((float) (now - starttime));
+                    ptmp->un.figs.outrate = ((float) (ptmp->un.figs.outspanbr * 8 / 1000))
+                                          / ((float) (now - starttime));
+                    break;
+                case ACTIVITY_MODE_KBYTES:
+                    ptmp->un.figs.inrate  = ((float) (ptmp->un.figs.inspanbr / 1024))
+                                          / ((float) (now - starttime));
+                    ptmp->un.figs.outrate = ((float) (ptmp->un.figs.outspanbr / 1024))
+                                          / ((float) (now - starttime));
+                    break;
+                case ACTIVITY_MODE_MBITS:
+                    ptmp->un.figs.inrate  = ((float) (ptmp->un.figs.inspanbr * 8 / 1000 / 1000))
+                                          / ((float) (now - starttime));
+                    ptmp->un.figs.outrate = ((float) (ptmp->un.figs.outspanbr * 8 / 1000 / 1000))
+                                          / ((float) (now - starttime));
+                    break;
+                case ACTIVITY_MODE_MBYTES:
+                    ptmp->un.figs.inrate  = ((float) (ptmp->un.figs.inspanbr / 1024 / 1024))
+                                          / ((float) (now - starttime));
+                    ptmp->un.figs.outrate = ((float) (ptmp->un.figs.outspanbr / 1024 / 1024))
+                                          / ((float) (now - starttime));
+                    break;
+                case ACTIVITY_MODE_GBITS:
+                    ptmp->un.figs.inrate  = ((float) (ptmp->un.figs.inspanbr * 8 / 1000 / 1000 / 1000))
+                                          / ((float) (now - starttime));
+                    ptmp->un.figs.outrate = ((float) (ptmp->un.figs.outspanbr * 8 / 1000 / 1000 / 1000))
+                                          / ((float) (now - starttime));
+                    break;
+                case ACTIVITY_MODE_GBYTES:
+                    ptmp->un.figs.inrate  = ((float) (ptmp->un.figs.inspanbr / 1024 / 1024 / 1024))
+                                          / ((float) (now - starttime));
+                    ptmp->un.figs.outrate = ((float) (ptmp->un.figs.outspanbr / 1024 / 1024 / 1024))
+                                          / ((float) (now - starttime));
+                    break;
             }
             if ((ptmp->index >= idx) && (ptmp->index <= idx + LINES - 5)) {
                 wattrset(table->tabwin, HIGHATTR);

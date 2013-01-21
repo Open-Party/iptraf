@@ -55,7 +55,7 @@ void makeoptionmenu(struct MENU *menu)
     tx_additem(menu, " ^L^ogging",
                "Toggles logging of traffic to a data file");
     tx_additem(menu, " Acti^v^ity mode",
-               "Toggles activity indicators between kbits/s and kbytes/s");
+               "Toggles activity indicators between kbits/s, kbytes/s, mbits/s, mbytes/s, gbits/s, and gbytes/s");
     tx_additem(menu, " Source ^M^AC addrs in traffic monitor",
                "Toggles display of source MAC addresses in the IP Traffic Monitor");
     tx_additem(menu, NULL, NULL);
@@ -123,10 +123,14 @@ void indicatesetting(int row, struct OPTIONS *options, WINDOW * win)
         break;
     case 6:
         wmove(win, row, 25);
-        if (options->actmode == KBITS)
-            wprintw(win, " kbits/s");
-        else
-            wprintw(win, "kbytes/s");
+        switch (options->actmode) {
+            case ACTIVITY_MODE_KBITS:  wprintw(win, " kbits/s"); break;
+            case ACTIVITY_MODE_KBYTES: wprintw(win, "kbytes/s"); break;
+            case ACTIVITY_MODE_MBITS:  wprintw(win, " mbits/s"); break;
+            case ACTIVITY_MODE_MBYTES: wprintw(win, "mbytes/s"); break;
+            case ACTIVITY_MODE_GBITS:  wprintw(win, " gbits/s"); break;
+            case ACTIVITY_MODE_GBYTES: wprintw(win, "gbytes/s"); break;
+        }
         break;
     case 7:
         printoptonoff(options->mac, win);
@@ -162,7 +166,7 @@ void setdefaultopts(struct OPTIONS *options)
     options->servnames = 0;
     options->color = 1;
     options->logging = 0;
-    options->actmode = KBITS;
+    options->actmode = ACTIVITY_MODE_KBITS;
     options->mac = 0;
     options->timeout = 15;
     options->logspan = 3600;
@@ -316,7 +320,7 @@ void setoptions(struct OPTIONS *options, struct porttab **ports)
             options->logging = ~(options->logging);
             break;
         case 6:
-            options->actmode = ~(options->actmode);
+            options->actmode = (options->actmode + 1) % ACTIVITY_MODE_MAX;
             break;
         case 7:
             options->mac = ~(options->mac);

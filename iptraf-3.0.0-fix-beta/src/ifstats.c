@@ -253,16 +253,37 @@ void updaterates(struct iftab *table, int unit, time_t starttime,
     wattrset(table->statwin, HIGHATTR);
     do {
         wmove(table->statwin, ptmp->index - idx, 52 * COLS / 80);
-        if (unit == KBITS) {
-            ptmp->rate =
-                ((float) (ptmp->spanbr * 8 / 1000)) /
-                ((float) (now - starttime));
-            wprintw(table->statwin, "%8.2f kbits/sec", ptmp->rate);
-        } else {
-            ptmp->rate =
-                ((float) (ptmp->spanbr / 1024)) /
-                ((float) (now - starttime));
-            wprintw(table->statwin, "%8.2f kbytes/sec", ptmp->rate);
+        switch (unit) {
+            case ACTIVITY_MODE_KBITS:
+                ptmp->rate = ((float) (ptmp->spanbr * 8 / 1000))
+                           / ((float) (now - starttime));
+                wprintw(table->statwin, "%8.2f kbits/sec", ptmp->rate);
+                break;
+            case ACTIVITY_MODE_KBYTES:
+                ptmp->rate = ((float) (ptmp->spanbr / 1024))
+                           / ((float) (now - starttime));
+                wprintw(table->statwin, "%8.2f kbytes/sec", ptmp->rate);
+                break;
+            case ACTIVITY_MODE_MBITS:
+                ptmp->rate = ((float) (ptmp->spanbr * 8 / 1000 / 1000))
+                           / ((float) (now - starttime));
+                wprintw(table->statwin, "%8.2f mbits/sec", ptmp->rate);
+                break;
+            case ACTIVITY_MODE_MBYTES:
+                ptmp->rate = ((float) (ptmp->spanbr / 1024 / 1024))
+                           / ((float) (now - starttime));
+                wprintw(table->statwin, "%8.2f mbytes/sec", ptmp->rate);
+                break;
+            case ACTIVITY_MODE_GBITS:
+                ptmp->rate = ((float) (ptmp->spanbr * 8 / 1000 / 1000 / 1000))
+                           / ((float) (now - starttime));
+                wprintw(table->statwin, "%8.2f gbits/sec", ptmp->rate);
+                break;
+            case ACTIVITY_MODE_GBYTES:
+                ptmp->rate = ((float) (ptmp->spanbr / 1024 / 1024 / 1024))
+                           / ((float) (now - starttime));
+                wprintw(table->statwin, "%8.2f gbytes/sec", ptmp->rate);
+                break;
         }
 
         if (ptmp->rate > ptmp->peakrate)
@@ -937,20 +958,37 @@ void detstats(char *iface, const struct OPTIONS *options, int facilitytime,
         if (rate_interval >= 5) {
             wattrset(statwin, BOXATTR);
             printelapsedtime(statbegin, now, LINES - 3, 1, statwin);
-            if (options->actmode == KBITS) {
-                activity =
-                    (float) (spanbr * 8 / 1000) / (float) rate_interval;
-                activity_in =
-                    (float) (spanbr_in * 8 / 1000) / (float) rate_interval;
-                activity_out =
-                    (float) (spanbr_out * 8 / 1000) /
-                    (float) rate_interval;
-            } else {
-                activity = (float) (spanbr / 1024) / (float) rate_interval;
-                activity_in =
-                    (float) (spanbr_in / 1024) / (float) rate_interval;
-                activity_out =
-                    (float) (spanbr_out / 1024) / (float) rate_interval;
+            switch (options->actmode) {
+                case ACTIVITY_MODE_KBITS:
+                    activity     = (float) (spanbr     * 8 / 1000) / (float) rate_interval;
+                    activity_in  = (float) (spanbr_in  * 8 / 1000) / (float) rate_interval;
+                    activity_out = (float) (spanbr_out * 8 / 1000) / (float) rate_interval;
+                    break;
+                case ACTIVITY_MODE_KBYTES:
+                    activity     = (float) (spanbr     / 1024) / (float) rate_interval;
+                    activity_in  = (float) (spanbr_in  / 1024) / (float) rate_interval;
+                    activity_out = (float) (spanbr_out / 1024) / (float) rate_interval;
+                    break;
+                case ACTIVITY_MODE_MBITS:
+                    activity     = (float) (spanbr     * 8 / 1000 / 1000) / (float) rate_interval;
+                    activity_in  = (float) (spanbr_in  * 8 / 1000 / 1000) / (float) rate_interval;
+                    activity_out = (float) (spanbr_out * 8 / 1000 / 1000) / (float) rate_interval;
+                    break;
+                case ACTIVITY_MODE_MBYTES:
+                    activity     = (float) (spanbr     / 1024 / 1024) / (float) rate_interval;
+                    activity_in  = (float) (spanbr_in  / 1024 / 1024) / (float) rate_interval;
+                    activity_out = (float) (spanbr_out / 1024 / 1024) / (float) rate_interval;
+                    break;
+                case ACTIVITY_MODE_GBITS:
+                    activity     = (float) (spanbr     * 8 / 1000 / 1000 / 1000) / (float) rate_interval;
+                    activity_in  = (float) (spanbr_in  * 8 / 1000 / 1000 / 1000) / (float) rate_interval;
+                    activity_out = (float) (spanbr_out * 8 / 1000 / 1000 / 1000) / (float) rate_interval;
+                    break;
+                case ACTIVITY_MODE_GBYTES:
+                    activity     = (float) (spanbr     / 1024 / 1024 / 1024) / (float) rate_interval;
+                    activity_in  = (float) (spanbr_in  / 1024 / 1024 / 1024) / (float) rate_interval;
+                    activity_out = (float) (spanbr_out / 1024 / 1024 / 1024) / (float) rate_interval;
+                    break;
             }
 
             pps = (float) (spanpkt) / (float) (now - starttime);

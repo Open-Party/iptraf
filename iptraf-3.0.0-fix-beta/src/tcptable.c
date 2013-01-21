@@ -450,20 +450,55 @@ char *tcplog_flowrate_msg(struct tcptableent *entry, struct OPTIONS *opts)
 
     interval = time(NULL) - entry->conn_starttime;
 
-    if (opts->actmode == KBITS) {
-        strcpy(rateunit, "kbits/s");
+    switch (opts->actmode) {
+        case ACTIVITY_MODE_KBITS:
+            strcpy(rateunit, "kbits/s");
 
-        if (interval > 0)
-            rate = (float) (entry->bcount * 8 / 1000) / (float) interval;
-        else
-            rate = (float) (entry->bcount * 8 / 1000);
-    } else {
-        strcpy(rateunit, "kbytes/s");
+            if (interval > 0)
+                rate = (float) (entry->bcount * 8 / 1000) / (float) interval;
+            else
+                rate = (float) (entry->bcount * 8 / 1000);
+            break;
+        case ACTIVITY_MODE_KBYTES:
+            strcpy(rateunit, "kbytes/s");
 
-        if (interval > 0)
-            rate = (float) (entry->bcount / 1024) / (float) interval;
-        else
-            rate = (float) (entry->bcount / 1024);
+            if (interval > 0)
+                rate = (float) (entry->bcount / 1024) / (float) interval;
+            else
+                rate = (float) (entry->bcount / 1024);
+            break;
+        case ACTIVITY_MODE_MBITS:
+            strcpy(rateunit, "mbits/s");
+
+            if (interval > 0)
+                rate = (float) (entry->bcount * 8 / 1000 / 1000) / (float) interval;
+            else
+                rate = (float) (entry->bcount * 8 / 1000 / 1000);
+            break;
+        case ACTIVITY_MODE_MBYTES:
+            strcpy(rateunit, "mbytes/s");
+
+            if (interval > 0)
+                rate = (float) (entry->bcount / 1024 / 1024) / (float) interval;
+            else
+                rate = (float) (entry->bcount / 1024 / 1024);
+            break;
+        case ACTIVITY_MODE_GBITS:
+            strcpy(rateunit, "gbits/s");
+
+            if (interval > 0)
+                rate = (float) (entry->bcount * 8 / 1000 / 1000 / 1000) / (float) interval;
+            else
+                rate = (float) (entry->bcount * 8 / 1000 / 1000 / 1000);
+            break;
+        case ACTIVITY_MODE_GBYTES:
+            strcpy(rateunit, "gbytes/s");
+
+            if (interval > 0)
+                rate = (float) (entry->bcount / 1024 / 1024 / 1024) / (float) interval;
+            else
+                rate = (float) (entry->bcount / 1024 / 1024 / 1024);
+            break;
     }
 
     snprintf(message, 60, "avg flow rate %.2f %s", rate, rateunit);
