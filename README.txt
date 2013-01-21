@@ -9,9 +9,12 @@ NOTICE:
 
 TODO:
 - Original 'IP traffic monitor' with 'TCP only' and 'UDP only'
-- Configure->Activity mode, add 'mbits/s' 'mbytes/s' 'gbits/s' 'gbytes/s'
 - show PID/Program Username (ref: netstat -tup)
 
 
 DONE:
+- Configure->Activity mode, add 'mbits/s' 'mbytes/s' 'gbits/s' 'gbytes/s'
+
+
+TEST:
 - TBD
