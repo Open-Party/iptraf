@@ -1,3 +1,6 @@
 *.o
 *.a
 *~
+iptraf-3.0.0-fix-beta/src/iptraf
+iptraf-3.0.0-fix-beta/src/rawtime
+iptraf-3.0.0-fix-beta/src/rvnamed
