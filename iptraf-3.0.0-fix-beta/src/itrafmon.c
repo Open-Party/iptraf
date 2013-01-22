@@ -577,7 +577,7 @@ void update_flowrate(WINDOW * win, struct tcptableent *entry, time_t now,
             rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr / 1024 / 1024 / 1024) / periodtime);
             break;
     }
-    mvwprintw(win, 0, COLS * 50 / 80 + 13, "%8.2f %s", rate, units);
+    mvwprintw(win, 0, COLS * 50 / 80 + 13, "%8.2f %s ", rate, units);
     entry->spanbr = 0;
     *cleared = 0;
 }
