@@ -541,42 +541,40 @@ int checkrvnamed(void)
 void update_flowrate(WINDOW * win, struct tcptableent *entry, time_t now,
                      int *cleared, int mode)
 {
+    int periodtime = 0;
     float rate = 0;
     char units[10];
 
     wattrset(win, IPSTATLABELATTR);
     mvwprintw(win, 0, COLS * 47 / 80, "TCP flow rate: ");
     wattrset(win, IPSTATATTR);
+
+    periodtime = now - entry->starttime;
+
     switch (mode) {
         case ACTIVITY_MODE_KBITS:
             strcpy(units, "kbits/s");
-            rate = (float) (entry->spanbr * 8 / 1000)
-                 / (float) (now - entry->starttime);
+            rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr * 8 / 1000) / periodtime);
             break;
         case ACTIVITY_MODE_KBYTES:
             strcpy(units, "kbytes/s");
-            rate = (float) (entry->spanbr / 1024)
-                 / (float) (now - entry->starttime);
+            rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr / 1024) / periodtime);
             break;
         case ACTIVITY_MODE_MBITS:
             strcpy(units, "mbits/s");
-            rate = (float) (entry->spanbr * 8 / 1000 / 1000)
-                 / (float) (now - entry->starttime);
+            rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr * 8 / 1000 / 1000) / periodtime);
             break;
         case ACTIVITY_MODE_MBYTES:
             strcpy(units, "mbytes/s");
-            rate = (float) (entry->spanbr / 1024 / 1024)
-                 / (float) (now - entry->starttime);
+            rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr / 1024 / 1024) / periodtime);
             break;
         case ACTIVITY_MODE_GBITS:
             strcpy(units, "gbits/s");
-            rate = (float) (entry->spanbr * 8 / 1000 / 1000 / 1000)
-                 / (float) (now - entry->starttime);
+            rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr * 8 / 1000 / 1000 / 1000) / periodtime);
             break;
         case ACTIVITY_MODE_GBYTES:
             strcpy(units, "gbytes/s");
-            rate = (float) (entry->spanbr / 1024 / 1024 / 1024)
-                 / (float) (now - entry->starttime);
+            rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr / 1024 / 1024 / 1024) / periodtime);
             break;
     }
     mvwprintw(win, 0, COLS * 50 / 80 + 13, "%8.2f %s", rate, units);
