@@ -73,6 +73,7 @@ void ipmonhelp()
     tx_printkeyhelp("W", "-chg actv win  ", stdscr, HIGHATTR,
                     STATUSBARATTR);
     tx_printkeyhelp("S", "-sort TCP  ", stdscr, HIGHATTR, STATUSBARATTR);
+    tx_printkeyhelp("V", "-chg actv mode  ", stdscr, HIGHATTR, STATUSBARATTR);
     stdexitkeyhelp();
 };
 
@@ -1014,6 +1015,13 @@ void ipmon(struct OPTIONS *options,
                 case 'S':
                     keymode = 1;
                     show_tcpsort_win(&sortwin, &sortpanel);
+                    break;
+                case 'v':
+                case 'V':
+                    options->actmode = (options->actmode + 1) % ACTIVITY_MODE_MAX;
+
+                    update_flowrate(statwin, table.barptr, now, &statcleared,
+                                    options->actmode);
                     break;
                 case 'Q':
                 case 'q':
