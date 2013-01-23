@@ -6,7 +6,7 @@ SOURCE:
 NOTICE:
 - iptraf need "libncurses5-dev" (my platform is debian "squeeze", apt-get install it)
 - why don't fix from iptraf-ng ? (https://fedorahosted.org/iptraf-ng/)
--- iptraf-ng changes code indent
+-- iptraf-ng changes code indent and bad indent
 -- iptraf-ng changes some code/file structure
 
 
