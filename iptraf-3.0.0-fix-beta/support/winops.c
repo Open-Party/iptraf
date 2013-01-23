@@ -28,7 +28,8 @@ void tx_colorwin(WINDOW * win)
 {
     int ctr;
     char *blankpad;
-    blankpad = (char *) malloc(sizeof(char) * (COLS + 1));
+    blankpad = (char *) malloc(sizeof(char) * (COLS + 2));
+    /* patch from https://fedorahosted.org/iptraf-ng/attachment/ticket/1/iptraf-1.0.2-segfault.patch */
 
     strcpy(blankpad, "");
 
