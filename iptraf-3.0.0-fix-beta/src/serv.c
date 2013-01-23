@@ -765,7 +765,7 @@ void servmon(char *ifname, struct porttab *ports,
     int br;
 
     char iface[8];
-    unsigned int idx = 1;
+    int idx = 1;
 
     unsigned int sport = 0;
     unsigned int dport = 0;
@@ -1048,7 +1048,7 @@ void servmon(char *ifname, struct porttab *ports,
         }
 
         if (br > 0) {
-            pkt_result = processpacket(buf, &ipacket, &br, &tot_br,
+            pkt_result = processpacket(buf, &ipacket, (unsigned int *) &br, &tot_br,
                                        &sport, &dport, &fromaddr,
                                        &linktype, ofilter,
                                        MATCH_OPPOSITE_USECONFIG, iface,
@@ -1109,7 +1109,7 @@ void servmon(char *ifname, struct porttab *ports,
     strcpy(current_logfile, "");
 }
 
-void portdlg(unsigned int *port_min, int *port_max, int *aborted, int mode)
+void portdlg(unsigned int *port_min, unsigned int *port_max, int *aborted, int mode)
 {
     WINDOW *bw;
     PANEL *bp;
@@ -1372,7 +1372,7 @@ void delport(struct porttab **table, struct porttab *ptmp)
 
 void removeaport(struct porttab **table)
 {
-    unsigned int aborted;
+    int aborted;
     struct porttab *ptmp;
 
     selectport(table, &ptmp, &aborted);

@@ -380,7 +380,7 @@ void initiftab(struct iftab *table)
  * Scrolling routines for the general interface statistics window
  */
 
-void scrollgstatwin(struct iftab *table, int direction, unsigned int *idx)
+void scrollgstatwin(struct iftab *table, int direction, int *idx)
 {
     char buf[255];
     sprintf(buf, "%%%dc", COLS - 2);
@@ -448,7 +448,7 @@ void ifstats(const struct OPTIONS *options, struct filterstate *ofilter,
 
     struct iflist *ptmp = NULL;
 
-    unsigned int idx = 1;
+    int idx = 1;
 
     int fd;
     FILE *logfile = NULL;
@@ -567,7 +567,7 @@ void ifstats(const struct OPTIONS *options, struct filterstate *ofilter,
                 && (((now - statbegin) / 60) >= facilitytime))
                 exitloop = 1;
 
-            getpacket(fd, buf, &fromaddr, &ch, &br, ifname, table.statwin);
+            getpacket(fd, buf, &fromaddr, &ch, (int *) &br, ifname, table.statwin);
 
             if (ch != ERR) {
                 switch (ch) {
@@ -603,7 +603,7 @@ void ifstats(const struct OPTIONS *options, struct filterstate *ofilter,
             }
             if (br > 0) {
                 pkt_result =
-                    processpacket(buf, &packet, &br, NULL, NULL, NULL,
+                    processpacket(buf, &packet, (unsigned int *) &br, NULL, NULL, NULL,
                                   &fromaddr, &linktype, ofilter,
                                   MATCH_OPPOSITE_USECONFIG, ifname, NULL);
 
@@ -1084,7 +1084,7 @@ void detstats(char *iface, const struct OPTIONS *options, int facilitytime,
             && (((now - statbegin) / 60) >= facilitytime))
             exitloop = 1;
 
-        getpacket(fd, buf, &fromaddr, &ch, &br, ifname, statwin);
+        getpacket(fd, buf, &fromaddr, &ch, (int *) &br, ifname, statwin);
 
         if (ch != ERR) {
             switch (ch) {
@@ -1106,7 +1106,7 @@ void detstats(char *iface, const struct OPTIONS *options, int facilitytime,
         }
         if (br > 0) {
             framelen = br;
-            pkt_result = processpacket(buf, &packet, &br, NULL,
+            pkt_result = processpacket(buf, &packet, (unsigned int *) &br, NULL,
                                        NULL, NULL, &fromaddr,
                                        &linktype, ofilter,
                                        MATCH_OPPOSITE_USECONFIG, ifname,

@@ -58,7 +58,7 @@ int rvnamedactive(void)
     struct sockaddr_un su;
     int sstat;
     struct timeval tv;
-    int fr;
+    socklen_t fr;
     int br;
     char unix_socket[80];
 
@@ -159,7 +159,7 @@ int revname(int *lookup, struct in_addr *saddr, char *target, int rvnfd)
     struct rvn rpkt;
     int br;
     struct sockaddr_un su;
-    int fl;
+    socklen_t fl;
     fd_set sockset;
     struct timeval tv;
     int sstat = 0;

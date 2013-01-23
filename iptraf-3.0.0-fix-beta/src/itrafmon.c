@@ -509,7 +509,7 @@ int checkrvnamed(void)
         indicate("Starting reverse lookup server");
 
         if ((cpid = fork()) == 0) {
-            execstat = execl(RVNDFILE, NULL);
+            execstat = execl(RVNDFILE, "", NULL);
 
             /* 
              * execl() never returns, so if we reach this point, we have
@@ -622,7 +622,7 @@ void ipmon(struct OPTIONS *options,
 
     int curwin = 0;
 
-    int readlen;
+    socklen_t readlen;
     char ifname[10];
 
     unsigned long long total_pkts = 0;
@@ -854,7 +854,7 @@ void ipmon(struct OPTIONS *options,
             rotate_flag = 0;
         }
 
-        getpacket(fd, tpacket, &fromaddr, &ch, &readlen, ifname,
+        getpacket(fd, tpacket, &fromaddr, &ch, (int *) &readlen, ifname,
                   table.tcpscreen);
 
         if (ch != ERR) {

@@ -193,7 +193,7 @@ int main(void)
 
     struct sockaddr_un csa, isa;        /* child and iptraf comm sockets */
     struct sockaddr_un fromaddr;
-    int fromlen;
+    socklen_t fromlen;
 
     FILE *logfile;
 

@@ -135,19 +135,19 @@ struct othptabent *add_othp_entry(struct othptable *table,
 
     if ((table->mac) || (!is_ip)) {
         if ((linkproto == LINK_ETHERNET) || (linkproto == LINK_PLIP)) {
-            convmacaddr(((struct ethhdr *) packet)->h_source,
+            convmacaddr((char *) ((struct ethhdr *) packet)->h_source,
                         new_entry->smacaddr);
-            convmacaddr(((struct ethhdr *) packet)->h_dest,
+            convmacaddr((char *) ((struct ethhdr *) packet)->h_dest,
                         new_entry->dmacaddr);
         } else if (linkproto == LINK_FDDI) {
-            convmacaddr(((struct fddihdr *) packet)->saddr,
+            convmacaddr((char *) ((struct fddihdr *) packet)->saddr,
                         new_entry->smacaddr);
-            convmacaddr(((struct fddihdr *) packet)->daddr,
+            convmacaddr((char *) ((struct fddihdr *) packet)->daddr,
                         new_entry->dmacaddr);
         } else if (linkproto == LINK_TR) {
-            convmacaddr(((struct trh_hdr *) packet)->saddr,
+            convmacaddr((char *) ((struct trh_hdr *) packet)->saddr,
                         new_entry->smacaddr);
-            convmacaddr(((struct trh_hdr *) packet)->daddr,
+            convmacaddr((char *) ((struct trh_hdr *) packet)->daddr,
                         new_entry->dmacaddr);
         }
     }

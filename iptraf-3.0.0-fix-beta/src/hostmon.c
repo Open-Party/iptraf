@@ -181,7 +181,7 @@ struct ethtabent *addethnode(struct ethtab *table, int *nomem)
 void convmacaddr(char *addr, char *result)
 {
     unsigned int i;
-    u_int8_t *ptmp = addr;
+    u_int8_t *ptmp = (u_int8_t *) addr;
     char hexbyte[3];
 
     strcpy(result, "");
@@ -730,7 +730,7 @@ void hostmon(const struct OPTIONS *options, int facilitytime, char *ifptr,
     char buf[MAX_PACKET_SIZE];
     char scratch_saddr[6];
     char scratch_daddr[6];
-    unsigned int idx = 1;
+    int idx = 1;
     int is_ip;
     int ch;
 
@@ -870,7 +870,7 @@ void hostmon(const struct OPTIONS *options, int facilitytime, char *ifptr,
             && (((now - statbegin) / 60) >= facilitytime))
             exitloop = 1;
 
-        getpacket(fd, buf, &fromaddr, &ch, &br, ifname, table.tabwin);
+        getpacket(fd, buf, &fromaddr, &ch, (int *) &br, ifname, table.tabwin);
 
         if (ch != ERR) {
             if (keymode == 0) {
@@ -915,7 +915,7 @@ void hostmon(const struct OPTIONS *options, int facilitytime, char *ifptr,
             }
         }
         if (br > 0) {
-            pkt_result = processpacket(buf, &ipacket, &br, NULL,
+            pkt_result = processpacket(buf, &ipacket, (unsigned int *) &br, NULL,
                                        NULL, NULL, &fromaddr, &linktype,
                                        ofilter, MATCH_OPPOSITE_USECONFIG,
                                        ifname, ifptr);

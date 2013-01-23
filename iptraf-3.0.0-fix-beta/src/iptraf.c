@@ -487,7 +487,7 @@ int main(int argc, char **argv)
     int command = 0;
     char keyparm[12];
     int facilitytime = 0;
-    int current_log_interval;
+    int current_log_interval = 0;
 
 #ifndef ALLOWUSERS
     if (getuid() != 0) {
