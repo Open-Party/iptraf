@@ -1017,8 +1017,13 @@ void ipmon(struct OPTIONS *options,
                     show_tcpsort_win(&sortwin, &sortpanel);
                     break;
                 case 'v':
-                case 'V':
                     options->actmode = (options->actmode + 1) % ACTIVITY_MODE_MAX;
+
+                    update_flowrate(statwin, table.barptr, now, &statcleared,
+                                    options->actmode);
+                    break;
+                case 'V':
+                    options->actmode = (options->actmode - 1 + ACTIVITY_MODE_MAX) % ACTIVITY_MODE_MAX;
 
                     update_flowrate(statwin, table.barptr, now, &statcleared,
                                     options->actmode);
