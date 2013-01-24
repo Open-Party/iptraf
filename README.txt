@@ -13,13 +13,14 @@ NOTICE:
 TODO:
 - Original 'IP traffic monitor' with 'TCP only' and 'UDP only'.
 - Show PID/Program Username (ref: netstat -tup)
-- Press v/V to change activity mode immediately.
+- UI: Press v/V to change activity mode immediately.
 
 
 DONE:
 - Configure->Activity mode, add 'mbits/s' 'mbytes/s' 'gbits/s' 'gbytes/s'.
-- Press v/V to change activity mode immediately: IP traffic monitor.
-
+- UI: Press v/V to change activity mode immediately:
+  - IP traffic monitor
+  - General interface statistics
 
 TEST:
 - TBD
