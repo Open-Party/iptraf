@@ -249,39 +249,37 @@ void updaterates(struct iftab *table, int unit, time_t starttime,
                  time_t now, unsigned int idx)
 {
     struct iflist *ptmp = table->firstvisible;
+    int periodtime = 0;
 
     wattrset(table->statwin, HIGHATTR);
+
+    periodtime = now - starttime;
+
     do {
         wmove(table->statwin, ptmp->index - idx, 52 * COLS / 80);
         switch (unit) {
             case ACTIVITY_MODE_KBITS:
-                ptmp->rate = ((float) (ptmp->spanbr * 8 / 1000))
-                           / ((float) (now - starttime));
+                ptmp->rate = (periodtime <= 0 ? 0 : ((float) ptmp->spanbr * 8 / 1000) / periodtime);
                 wprintw(table->statwin, "%8.2f kbits/sec", ptmp->rate);
                 break;
             case ACTIVITY_MODE_KBYTES:
-                ptmp->rate = ((float) (ptmp->spanbr / 1024))
-                           / ((float) (now - starttime));
+                ptmp->rate = (periodtime <= 0 ? 0 : ((float) ptmp->spanbr / 1024) / periodtime);
                 wprintw(table->statwin, "%8.2f kbytes/sec", ptmp->rate);
                 break;
             case ACTIVITY_MODE_MBITS:
-                ptmp->rate = ((float) (ptmp->spanbr * 8 / 1000 / 1000))
-                           / ((float) (now - starttime));
+                ptmp->rate = (periodtime <= 0 ? 0 : ((float) ptmp->spanbr * 8 / 1000 / 1000) / periodtime);
                 wprintw(table->statwin, "%8.2f mbits/sec", ptmp->rate);
                 break;
             case ACTIVITY_MODE_MBYTES:
-                ptmp->rate = ((float) (ptmp->spanbr / 1024 / 1024))
-                           / ((float) (now - starttime));
+                ptmp->rate = (periodtime <= 0 ? 0 : ((float) ptmp->spanbr / 1024 / 1024) / periodtime);
                 wprintw(table->statwin, "%8.2f mbytes/sec", ptmp->rate);
                 break;
             case ACTIVITY_MODE_GBITS:
-                ptmp->rate = ((float) (ptmp->spanbr * 8 / 1000 / 1000 / 1000))
-                           / ((float) (now - starttime));
+                ptmp->rate = (periodtime <= 0 ? 0 : ((float) ptmp->spanbr * 8 / 1000 / 1000 / 1000) / periodtime);
                 wprintw(table->statwin, "%8.2f gbits/sec", ptmp->rate);
                 break;
             case ACTIVITY_MODE_GBYTES:
-                ptmp->rate = ((float) (ptmp->spanbr / 1024 / 1024 / 1024))
-                           / ((float) (now - starttime));
+                ptmp->rate = (periodtime <= 0 ? 0 : ((float) ptmp->spanbr / 1024 / 1024 / 1024) / periodtime);
                 wprintw(table->statwin, "%8.2f gbytes/sec", ptmp->rate);
                 break;
         }
