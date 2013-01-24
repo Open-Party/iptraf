@@ -351,6 +351,12 @@ void labelstats(WINDOW * win)
     wprintw(win, " Activity ");
 }
 
+void ipstatshelp()
+{
+    move(LINES - 1, 34);
+    tx_printkeyhelp("V", "-chg actv mode  ", stdscr, HIGHATTR, STATUSBARATTR);
+}
+
 void initiftab(struct iftab *table)
 {
     table->borderwin = newwin(LINES - 2, COLS, 1, 0);
@@ -358,6 +364,7 @@ void initiftab(struct iftab *table)
 
     move(LINES - 1, 1);
     scrollkeyhelp();
+    ipstatshelp();
     stdexitkeyhelp();
     wattrset(table->borderwin, BOXATTR);
     tx_box(table->borderwin, ACS_VLINE, ACS_HLINE);
@@ -431,7 +438,7 @@ void pagegstatwin(struct iftab *table, int direction, int *idx)
  * The general interface statistics function
  */
 
-void ifstats(const struct OPTIONS *options, struct filterstate *ofilter,
+void ifstats(struct OPTIONS *options, struct filterstate *ofilter,
              int facilitytime)
 {
     int logging = options->logging;
@@ -588,7 +595,14 @@ void ifstats(const struct OPTIONS *options, struct filterstate *ofilter,
                 case 'L':
                     tx_refresh_screen();
                     break;
-
+                case 'v':
+                    options->actmode = (options->actmode + 1) % ACTIVITY_MODE_MAX;
+                    updaterates(&table, options->actmode, starttime, now, idx);
+                    break;
+                case 'V':
+                    options->actmode = (options->actmode - 1 + ACTIVITY_MODE_MAX) % ACTIVITY_MODE_MAX;
+                    updaterates(&table, options->actmode, starttime, now, idx);
+                    break;
                 case 'Q':
                 case 'q':
                 case 'X':
