@@ -9,11 +9,11 @@
 void dispmode(int mode, char *result)
 {
     switch (mode) {
-        case ACTIVITY_MODE_KBITS:  strcpy(result, "kbits");  break;
-        case ACTIVITY_MODE_KBYTES: strcpy(result, "kbytes"); break;
-        case ACTIVITY_MODE_MBITS:  strcpy(result, "mbits");  break;
-        case ACTIVITY_MODE_MBYTES: strcpy(result, "mbytes"); break;
-        case ACTIVITY_MODE_GBITS:  strcpy(result, "gbits");  break;
-        case ACTIVITY_MODE_GBYTES: strcpy(result, "gbytes"); break;
+        case ACTIVITY_MODE_KBITS:  strcpy(result, "Kb");  break;
+        case ACTIVITY_MODE_KBYTES: strcpy(result, "KB"); break;
+        case ACTIVITY_MODE_MBITS:  strcpy(result, "Mb");  break;
+        case ACTIVITY_MODE_MBYTES: strcpy(result, "MB"); break;
+        case ACTIVITY_MODE_GBITS:  strcpy(result, "Gb");  break;
+        case ACTIVITY_MODE_GBYTES: strcpy(result, "GB"); break;
     }
 }

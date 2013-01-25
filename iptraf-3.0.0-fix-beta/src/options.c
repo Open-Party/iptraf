@@ -55,7 +55,7 @@ void makeoptionmenu(struct MENU *menu)
     tx_additem(menu, " ^L^ogging",
                "Toggles logging of traffic to a data file");
     tx_additem(menu, " Acti^v^ity mode",
-               "Toggles activity indicators between kbits/s, kbytes/s, mbits/s, mbytes/s, gbits/s, and gbytes/s");
+               "Toggles activity indicators between Kb/s, KB/s, Mb/s, MB/s, Gb/s, and GB/s");
     tx_additem(menu, " Source ^M^AC addrs in traffic monitor",
                "Toggles display of source MAC addresses in the IP Traffic Monitor");
     tx_additem(menu, NULL, NULL);
@@ -124,12 +124,12 @@ void indicatesetting(int row, struct OPTIONS *options, WINDOW * win)
     case 6:
         wmove(win, row, 25);
         switch (options->actmode) {
-            case ACTIVITY_MODE_KBITS:  wprintw(win, " kbits/s"); break;
-            case ACTIVITY_MODE_KBYTES: wprintw(win, "kbytes/s"); break;
-            case ACTIVITY_MODE_MBITS:  wprintw(win, " mbits/s"); break;
-            case ACTIVITY_MODE_MBYTES: wprintw(win, "mbytes/s"); break;
-            case ACTIVITY_MODE_GBITS:  wprintw(win, " gbits/s"); break;
-            case ACTIVITY_MODE_GBYTES: wprintw(win, "gbytes/s"); break;
+            case ACTIVITY_MODE_KBITS:  wprintw(win, "Kb/s"); break;
+            case ACTIVITY_MODE_KBYTES: wprintw(win, "KB/s"); break;
+            case ACTIVITY_MODE_MBITS:  wprintw(win, "Mb/s"); break;
+            case ACTIVITY_MODE_MBYTES: wprintw(win, "MB/s"); break;
+            case ACTIVITY_MODE_GBITS:  wprintw(win, "Gb/s"); break;
+            case ACTIVITY_MODE_GBYTES: wprintw(win, "GB/s"); break;
         }
         break;
     case 7:

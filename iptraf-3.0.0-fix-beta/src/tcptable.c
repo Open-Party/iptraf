@@ -452,7 +452,7 @@ char *tcplog_flowrate_msg(struct tcptableent *entry, struct OPTIONS *opts)
 
     switch (opts->actmode) {
         case ACTIVITY_MODE_KBITS:
-            strcpy(rateunit, "kbits/s");
+            strcpy(rateunit, "Kb/s");
 
             if (interval > 0)
                 rate = (float) (entry->bcount * 8 / 1000) / (float) interval;
@@ -460,7 +460,7 @@ char *tcplog_flowrate_msg(struct tcptableent *entry, struct OPTIONS *opts)
                 rate = (float) (entry->bcount * 8 / 1000);
             break;
         case ACTIVITY_MODE_KBYTES:
-            strcpy(rateunit, "kbytes/s");
+            strcpy(rateunit, "KB/s");
 
             if (interval > 0)
                 rate = (float) (entry->bcount / 1024) / (float) interval;
@@ -468,7 +468,7 @@ char *tcplog_flowrate_msg(struct tcptableent *entry, struct OPTIONS *opts)
                 rate = (float) (entry->bcount / 1024);
             break;
         case ACTIVITY_MODE_MBITS:
-            strcpy(rateunit, "mbits/s");
+            strcpy(rateunit, "Mb/s");
 
             if (interval > 0)
                 rate = (float) (entry->bcount * 8 / 1000 / 1000) / (float) interval;
@@ -476,7 +476,7 @@ char *tcplog_flowrate_msg(struct tcptableent *entry, struct OPTIONS *opts)
                 rate = (float) (entry->bcount * 8 / 1000 / 1000);
             break;
         case ACTIVITY_MODE_MBYTES:
-            strcpy(rateunit, "mbytes/s");
+            strcpy(rateunit, "MB/s");
 
             if (interval > 0)
                 rate = (float) (entry->bcount / 1024 / 1024) / (float) interval;
@@ -484,7 +484,7 @@ char *tcplog_flowrate_msg(struct tcptableent *entry, struct OPTIONS *opts)
                 rate = (float) (entry->bcount / 1024 / 1024);
             break;
         case ACTIVITY_MODE_GBITS:
-            strcpy(rateunit, "gbits/s");
+            strcpy(rateunit, "Gb/s");
 
             if (interval > 0)
                 rate = (float) (entry->bcount * 8 / 1000 / 1000 / 1000) / (float) interval;
@@ -492,7 +492,7 @@ char *tcplog_flowrate_msg(struct tcptableent *entry, struct OPTIONS *opts)
                 rate = (float) (entry->bcount * 8 / 1000 / 1000 / 1000);
             break;
         case ACTIVITY_MODE_GBYTES:
-            strcpy(rateunit, "gbytes/s");
+            strcpy(rateunit, "GB/s");
 
             if (interval > 0)
                 rate = (float) (entry->bcount / 1024 / 1024 / 1024) / (float) interval;

@@ -260,27 +260,27 @@ void updaterates(struct iftab *table, int unit, time_t starttime,
         switch (unit) {
             case ACTIVITY_MODE_KBITS:
                 ptmp->rate = (periodtime <= 0 ? 0 : ((float) ptmp->spanbr * 8 / 1000) / periodtime);
-                wprintw(table->statwin, "%8.2f kbits/sec ", ptmp->rate);
+                wprintw(table->statwin, "%8.2f Kb/s", ptmp->rate);
                 break;
             case ACTIVITY_MODE_KBYTES:
                 ptmp->rate = (periodtime <= 0 ? 0 : ((float) ptmp->spanbr / 1024) / periodtime);
-                wprintw(table->statwin, "%8.2f kbytes/sec", ptmp->rate);
+                wprintw(table->statwin, "%8.2f KB/s", ptmp->rate);
                 break;
             case ACTIVITY_MODE_MBITS:
                 ptmp->rate = (periodtime <= 0 ? 0 : ((float) ptmp->spanbr * 8 / 1000 / 1000) / periodtime);
-                wprintw(table->statwin, "%8.2f mbits/sec ", ptmp->rate);
+                wprintw(table->statwin, "%8.2f Mb/s", ptmp->rate);
                 break;
             case ACTIVITY_MODE_MBYTES:
                 ptmp->rate = (periodtime <= 0 ? 0 : ((float) ptmp->spanbr / 1024 / 1024) / periodtime);
-                wprintw(table->statwin, "%8.2f mbytes/sec", ptmp->rate);
+                wprintw(table->statwin, "%8.2f MB/s", ptmp->rate);
                 break;
             case ACTIVITY_MODE_GBITS:
                 ptmp->rate = (periodtime <= 0 ? 0 : ((float) ptmp->spanbr * 8 / 1000 / 1000 / 1000) / periodtime);
-                wprintw(table->statwin, "%8.2f gbits/sec ", ptmp->rate);
+                wprintw(table->statwin, "%8.2f Gb/s", ptmp->rate);
                 break;
             case ACTIVITY_MODE_GBYTES:
                 ptmp->rate = (periodtime <= 0 ? 0 : ((float) ptmp->spanbr / 1024 / 1024 / 1024) / periodtime);
-                wprintw(table->statwin, "%8.2f gbytes/sec", ptmp->rate);
+                wprintw(table->statwin, "%8.2f GB/s", ptmp->rate);
                 break;
         }
 

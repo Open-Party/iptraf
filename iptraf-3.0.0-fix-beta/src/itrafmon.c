@@ -554,31 +554,31 @@ void update_flowrate(WINDOW * win, struct tcptableent *entry, time_t now,
 
     switch (mode) {
         case ACTIVITY_MODE_KBITS:
-            strcpy(units, "kbits/s");
+            strcpy(units, "Kb/s");
             rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr * 8 / 1000) / periodtime);
             break;
         case ACTIVITY_MODE_KBYTES:
-            strcpy(units, "kbytes/s");
+            strcpy(units, "KB/s");
             rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr / 1024) / periodtime);
             break;
         case ACTIVITY_MODE_MBITS:
-            strcpy(units, "mbits/s");
+            strcpy(units, "Mb/s");
             rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr * 8 / 1000 / 1000) / periodtime);
             break;
         case ACTIVITY_MODE_MBYTES:
-            strcpy(units, "mbytes/s");
+            strcpy(units, "MB/s");
             rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr / 1024 / 1024) / periodtime);
             break;
         case ACTIVITY_MODE_GBITS:
-            strcpy(units, "gbits/s");
+            strcpy(units, "Gb/s");
             rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr * 8 / 1000 / 1000 / 1000) / periodtime);
             break;
         case ACTIVITY_MODE_GBYTES:
-            strcpy(units, "gbytes/s");
+            strcpy(units, "GB/s");
             rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr / 1024 / 1024 / 1024) / periodtime);
             break;
     }
-    mvwprintw(win, 0, COLS * 50 / 80 + 13, "%8.2f %s ", rate, units);
+    mvwprintw(win, 0, COLS * 50 / 80 + 13, "%8.2f %s", rate, units);
     entry->spanbr = 0;
     *cleared = 0;
 }
