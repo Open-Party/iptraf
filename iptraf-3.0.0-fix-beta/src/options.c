@@ -122,7 +122,7 @@ void indicatesetting(int row, struct OPTIONS *options, WINDOW * win)
         printoptonoff(options->logging, win);
         break;
     case 6:
-        wmove(win, row, 25);
+        wmove(win, row, 29);
         switch (options->actmode) {
             case ACTIVITY_MODE_KBITS:  wprintw(win, "Kb/s"); break;
             case ACTIVITY_MODE_KBYTES: wprintw(win, "KB/s"); break;
