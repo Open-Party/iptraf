@@ -124,6 +124,8 @@ void indicatesetting(int row, struct OPTIONS *options, WINDOW * win)
     case 6:
         wmove(win, row, 29);
         switch (options->actmode) {
+            case ACTIVITY_MODE_BITS:   wprintw(win, "b/s "); break;
+            case ACTIVITY_MODE_BYTES:  wprintw(win, "B/s "); break;
             case ACTIVITY_MODE_KBITS:  wprintw(win, "Kb/s"); break;
             case ACTIVITY_MODE_KBYTES: wprintw(win, "KB/s"); break;
             case ACTIVITY_MODE_MBITS:  wprintw(win, "Mb/s"); break;

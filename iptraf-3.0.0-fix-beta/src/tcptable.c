@@ -451,6 +451,22 @@ char *tcplog_flowrate_msg(struct tcptableent *entry, struct OPTIONS *opts)
     interval = time(NULL) - entry->conn_starttime;
 
     switch (opts->actmode) {
+        case ACTIVITY_MODE_BITS:
+            strcpy(rateunit, "b/s ");
+
+            if (interval > 0)
+                rate = (float) (entry->bcount * 8) / (float) interval;
+            else
+                rate = (float) (entry->bcount * 8);
+            break;
+        case ACTIVITY_MODE_BYTES:
+            strcpy(rateunit, "B/s ");
+
+            if (interval > 0)
+                rate = (float) (entry->bcount) / (float) interval;
+            else
+                rate = (float) (entry->bcount);
+            break;
         case ACTIVITY_MODE_KBITS:
             strcpy(rateunit, "Kb/s");
 

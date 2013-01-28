@@ -380,6 +380,18 @@ void updateethrates(struct ethtab *table, int unit, time_t starttime,
         if (ptmp->type == 1) {
             ptmp->un.figs.past5 = 1;
             switch (unit) {
+                case ACTIVITY_MODE_BITS:
+                    ptmp->un.figs.inrate  = ((float) (ptmp->un.figs.inspanbr * 8))
+                                          / ((float) (now - starttime));
+                    ptmp->un.figs.outrate = ((float) (ptmp->un.figs.outspanbr * 8))
+                                          / ((float) (now - starttime));
+                    break;
+                case ACTIVITY_MODE_BYTES:
+                    ptmp->un.figs.inrate  = ((float) (ptmp->un.figs.inspanbr))
+                                          / ((float) (now - starttime));
+                    ptmp->un.figs.outrate = ((float) (ptmp->un.figs.outspanbr))
+                                          / ((float) (now - starttime));
+                    break;
                 case ACTIVITY_MODE_KBITS:
                     ptmp->un.figs.inrate  = ((float) (ptmp->un.figs.inspanbr * 8 / 1000))
                                           / ((float) (now - starttime));

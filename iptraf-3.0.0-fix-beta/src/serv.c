@@ -679,6 +679,22 @@ void update_serv_rates(struct portlist *list, WINDOW * win, int actmode,
     dispmode(actmode, act_unit);
 
     switch (actmode) {
+        case ACTIVITY_MODE_BITS:
+            inrate    = (float) (list->barptr->spans.spanbr_in * 8)
+                      / (float) (now - list->barptr->starttime);
+            outrate   = (float) (list->barptr->spans.spanbr_out * 8)
+                      / (float) (now - list->barptr->starttime);
+            totalrate = (float) (list->barptr->spans.spanbr * 8)
+                      / (float) (now - list->barptr->starttime);
+            break;
+        case ACTIVITY_MODE_BYTES:
+            inrate    = (float) (list->barptr->spans.spanbr_in)
+                      / (float) (now - list->barptr->starttime);
+            outrate   = (float) (list->barptr->spans.spanbr_out)
+                      / (float) (now - list->barptr->starttime);
+            totalrate = (float) (list->barptr->spans.spanbr)
+                      / (float) (now - list->barptr->starttime);
+            break;
         case ACTIVITY_MODE_KBITS:
             inrate    = (float) (list->barptr->spans.spanbr_in * 8 / 1000)
                       / (float) (now - list->barptr->starttime);

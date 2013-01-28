@@ -258,6 +258,14 @@ void updaterates(struct iftab *table, int unit, time_t starttime,
     do {
         wmove(table->statwin, ptmp->index - idx, 52 * COLS / 80);
         switch (unit) {
+            case ACTIVITY_MODE_BITS:
+                ptmp->rate = (periodtime <= 0 ? 0 : ((float) ptmp->spanbr * 8) / periodtime);
+                wprintw(table->statwin, "%8.2f b/s ", ptmp->rate);
+                break;
+            case ACTIVITY_MODE_BYTES:
+                ptmp->rate = (periodtime <= 0 ? 0 : ((float) ptmp->spanbr) / periodtime);
+                wprintw(table->statwin, "%8.2f B/s ", ptmp->rate);
+                break;
             case ACTIVITY_MODE_KBITS:
                 ptmp->rate = (periodtime <= 0 ? 0 : ((float) ptmp->spanbr * 8 / 1000) / periodtime);
                 wprintw(table->statwin, "%8.2f Kb/s", ptmp->rate);
@@ -981,6 +989,16 @@ void detstats(char *iface, struct OPTIONS *options, int facilitytime,
             wattrset(statwin, BOXATTR);
             printelapsedtime(statbegin, now, LINES - 3, 1, statwin);
             switch (options->actmode) {
+                case ACTIVITY_MODE_BITS:
+                    activity     = (rate_interval <= 0 ? 0 : (float) spanbr     * 8 / rate_interval);
+                    activity_in  = (rate_interval <= 0 ? 0 : (float) spanbr_in  * 8 / rate_interval);
+                    activity_out = (rate_interval <= 0 ? 0 : (float) spanbr_out * 8 / rate_interval);
+                    break;
+                case ACTIVITY_MODE_BYTES:
+                    activity     = (rate_interval <= 0 ? 0 : (float) spanbr     / rate_interval);
+                    activity_in  = (rate_interval <= 0 ? 0 : (float) spanbr_in  / rate_interval);
+                    activity_out = (rate_interval <= 0 ? 0 : (float) spanbr_out / rate_interval);
+                    break;
                 case ACTIVITY_MODE_KBITS:
                     activity     = (rate_interval <= 0 ? 0 : (float) spanbr     * 8 / 1000 / rate_interval);
                     activity_in  = (rate_interval <= 0 ? 0 : (float) spanbr_in  * 8 / 1000 / rate_interval);

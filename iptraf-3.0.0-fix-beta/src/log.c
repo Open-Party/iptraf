@@ -268,6 +268,16 @@ void writegstatlog(struct iftab *table, int unit, unsigned long nsecs,
             dispmode(unit, unitstring);
 
             switch (unit) {
+                case ACTIVITY_MODE_BITS:
+                    fprintf(fd, ", average activity %.2f %s/s",
+                            (float) (ptmp->br * 8) / (float) nsecs,
+                            unitstring);
+                    break;
+                case ACTIVITY_MODE_BYTES:
+                    fprintf(fd, ", average activity %.2f %s/s",
+                            (float) (ptmp->br) / (float) nsecs,
+                            unitstring);
+                    break;
                 case ACTIVITY_MODE_KBITS:
                     fprintf(fd, ", average activity %.2f %s/s",
                             (float) (ptmp->br * 8 / 1000) / (float) nsecs,
@@ -380,6 +390,30 @@ void writedstatlog(char *ifname, int unit, float activity, float pps,
         fprintf(fd, "\nAverage rates:\n");
 
         switch (unit) {
+            case ACTIVITY_MODE_BITS:
+                fprintf(fd, "  Total:\t%.2f b/s,  %.2f packets/s\n",
+                        ((float) (ts->bytestotal * 8) / (float) nsecs),
+                        ((float) (ts->total) / (float) nsecs));
+                fprintf(fd, "  Incoming:\t%.2f b/s,  %.2f packets/s\n",
+                        (float) (ts->bytestotal_in * 8) /
+                        (float) (nsecs),
+                        (float) (ts->total_in) / (float) (nsecs));
+                fprintf(fd, "  Outgoing:\t%.2f b/s,  %.2f packets/s\n",
+                        (float) (ts->bytestotal_out * 8) /
+                        (float) (nsecs),
+                        (float) (ts->total_out) / (float) (nsecs));
+                break; 
+            case ACTIVITY_MODE_BYTES:
+                fprintf(fd, "%.2f B/s,  %.2f packets/s\n",
+                        ((float) (ts->bytestotal) / (float) nsecs),
+                        ((float) (ts->total) / (float) nsecs));
+                fprintf(fd, "Incoming:\t%.2f B/s,  %.2f packets/s\n",
+                        (float) (ts->bytestotal_in) / (float) (nsecs),
+                        (float) (ts->total_in) / (float) (nsecs));
+                fprintf(fd, "Outgoing:\t%.2f B/s,  %.2f packets/s\n",
+                        (float) (ts->bytestotal_out) / (float) (nsecs),
+                        (float) (ts->total_out) / (float) (nsecs));
+                break; 
             case ACTIVITY_MODE_KBITS:
                 fprintf(fd, "  Total:\t%.2f Kb/s, %.2f packets/s\n",
                         ((float) (ts->bytestotal * 8 / 1000) / (float) nsecs),
@@ -485,6 +519,22 @@ void writeutslog(struct portlistent *list, unsigned long nsecs, int units,
             inrate = outrate = totalrate = -1.0;
         else {
             switch (units) {
+                case ACTIVITY_MODE_BITS:
+                    inrate    = (float) (ptmp->ibcount * 8)
+                              / (float) (now - ptmp->proto_starttime);
+                    outrate   = (float) (ptmp->obcount * 8)
+                              / (float) (now - ptmp->proto_starttime);
+                    totalrate = (float) (ptmp->bcount * 8)
+                              / (float) (now - ptmp->proto_starttime);
+                    break;
+                case ACTIVITY_MODE_BYTES:
+                    inrate    = (float) (ptmp->obcount)
+                              / (float) (now - ptmp->proto_starttime);
+                    outrate   = (float) (ptmp->obcount)
+                              / (float) (now - ptmp->proto_starttime);
+                    totalrate = (float) (ptmp->obcount)
+                              / (float) (now - ptmp->proto_starttime);
+                    break;
                 case ACTIVITY_MODE_KBITS:
                     inrate    = (float) (ptmp->ibcount * 8 / 1000)
                               / (float) (now - ptmp->proto_starttime);
@@ -606,6 +656,22 @@ void writeethlog(struct ethtabent *list, int unit, unsigned long nsecs,
 
             fprintf(fd, "\tAverage rates: ");
             switch (unit) {
+                case ACTIVITY_MODE_BITS:
+                    fprintf(fd,
+                        "%.2f Kb/s incoming, %.2f b/s  outgoing\n",
+                        (float) (ptmp->un.figs.inbcount * 8) /
+                        (float) nsecs,
+                        (float) (ptmp->un.figs.outbcount * 8) /
+                        (float) nsecs);
+                    break;
+                case ACTIVITY_MODE_BYTES:
+                    fprintf(fd,
+                        "%.2f KB/s incoming, %.2f B/s  outgoing\n",
+                        (float) (ptmp->un.figs.inbcount) /
+                        (float) nsecs,
+                        (float) (ptmp->un.figs.outbcount) /
+                        (float) nsecs);
+                    break;
                 case ACTIVITY_MODE_KBITS:
                     fprintf(fd,
                         "%.2f Kb/s incoming, %.2f Kb/s outgoing\n",

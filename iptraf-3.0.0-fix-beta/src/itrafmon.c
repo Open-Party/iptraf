@@ -553,6 +553,14 @@ void update_flowrate(WINDOW * win, struct tcptableent *entry, time_t now,
     periodtime = now - entry->starttime;
 
     switch (mode) {
+        case ACTIVITY_MODE_BITS:
+            strcpy(units, "b/s ");
+            rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr * 8) / periodtime);
+            break;
+        case ACTIVITY_MODE_BYTES:
+            strcpy(units, "B/s ");
+            rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr) / periodtime);
+            break;
         case ACTIVITY_MODE_KBITS:
             strcpy(units, "Kb/s");
             rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr * 8 / 1000) / periodtime);
