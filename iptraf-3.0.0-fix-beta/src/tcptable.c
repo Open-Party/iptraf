@@ -455,65 +455,65 @@ char *tcplog_flowrate_msg(struct tcptableent *entry, struct OPTIONS *opts)
             strcpy(rateunit, "b/s ");
 
             if (interval > 0)
-                rate = (float) (entry->bcount * 8) / (float) interval;
+                rate = (float) entry->bcount * 8 / interval;
             else
-                rate = (float) (entry->bcount * 8);
+                rate = (float) entry->bcount * 8;
             break;
         case ACTIVITY_MODE_BYTES:
             strcpy(rateunit, "B/s ");
 
             if (interval > 0)
-                rate = (float) (entry->bcount) / (float) interval;
+                rate = (float) entry->bcount / interval;
             else
-                rate = (float) (entry->bcount);
+                rate = (float) entry->bcount;
             break;
         case ACTIVITY_MODE_KBITS:
             strcpy(rateunit, "Kb/s");
 
             if (interval > 0)
-                rate = (float) (entry->bcount * 8 / 1000) / (float) interval;
+                rate = (float) entry->bcount * 8 / 1000 / interval;
             else
-                rate = (float) (entry->bcount * 8 / 1000);
+                rate = (float) entry->bcount * 8 / 1000;
             break;
         case ACTIVITY_MODE_KBYTES:
             strcpy(rateunit, "KB/s");
 
             if (interval > 0)
-                rate = (float) (entry->bcount / 1024) / (float) interval;
+                rate = (float) entry->bcount / 1024 / interval;
             else
-                rate = (float) (entry->bcount / 1024);
+                rate = (float) entry->bcount / 1024;
             break;
         case ACTIVITY_MODE_MBITS:
             strcpy(rateunit, "Mb/s");
 
             if (interval > 0)
-                rate = (float) (entry->bcount * 8 / 1000 / 1000) / (float) interval;
+                rate = (float) entry->bcount * 8 / 1000 / 1000 / interval;
             else
-                rate = (float) (entry->bcount * 8 / 1000 / 1000);
+                rate = (float) entry->bcount * 8 / 1000 / 1000;
             break;
         case ACTIVITY_MODE_MBYTES:
             strcpy(rateunit, "MB/s");
 
             if (interval > 0)
-                rate = (float) (entry->bcount / 1024 / 1024) / (float) interval;
+                rate = (float) entry->bcount / 1024 / 1024 / interval;
             else
-                rate = (float) (entry->bcount / 1024 / 1024);
+                rate = (float) entry->bcount / 1024 / 1024;
             break;
         case ACTIVITY_MODE_GBITS:
             strcpy(rateunit, "Gb/s");
 
             if (interval > 0)
-                rate = (float) (entry->bcount * 8 / 1000 / 1000 / 1000) / (float) interval;
+                rate = (float) entry->bcount * 8 / 1000 / 1000 / 1000 / interval;
             else
-                rate = (float) (entry->bcount * 8 / 1000 / 1000 / 1000);
+                rate = (float) entry->bcount * 8 / 1000 / 1000 / 1000;
             break;
         case ACTIVITY_MODE_GBYTES:
             strcpy(rateunit, "GB/s");
 
             if (interval > 0)
-                rate = (float) (entry->bcount / 1024 / 1024 / 1024) / (float) interval;
+                rate = (float) entry->bcount / 1024 / 1024 / 1024 / interval;
             else
-                rate = (float) (entry->bcount / 1024 / 1024 / 1024);
+                rate = (float) entry->bcount / 1024 / 1024 / 1024;
             break;
     }
 
