@@ -972,40 +972,40 @@ void detstats(char *iface, const struct OPTIONS *options, int facilitytime,
             printelapsedtime(statbegin, now, LINES - 3, 1, statwin);
             switch (options->actmode) {
                 case ACTIVITY_MODE_KBITS:
-                    activity     = (float) (spanbr     * 8 / 1000) / (float) rate_interval;
-                    activity_in  = (float) (spanbr_in  * 8 / 1000) / (float) rate_interval;
-                    activity_out = (float) (spanbr_out * 8 / 1000) / (float) rate_interval;
+                    activity     = (rate_interval <= 0 ? 0 : (float) spanbr     * 8 / 1000 / rate_interval);
+                    activity_in  = (rate_interval <= 0 ? 0 : (float) spanbr_in  * 8 / 1000 / rate_interval);
+                    activity_out = (rate_interval <= 0 ? 0 : (float) spanbr_out * 8 / 1000 / rate_interval);
                     break;
                 case ACTIVITY_MODE_KBYTES:
-                    activity     = (float) (spanbr     / 1024) / (float) rate_interval;
-                    activity_in  = (float) (spanbr_in  / 1024) / (float) rate_interval;
-                    activity_out = (float) (spanbr_out / 1024) / (float) rate_interval;
+                    activity     = (rate_interval <= 0 ? 0 : (float) spanbr     / 1024 / rate_interval);
+                    activity_in  = (rate_interval <= 0 ? 0 : (float) spanbr_in  / 1024 / rate_interval);
+                    activity_out = (rate_interval <= 0 ? 0 : (float) spanbr_out / 1024 / rate_interval);
                     break;
                 case ACTIVITY_MODE_MBITS:
-                    activity     = (float) (spanbr     * 8 / 1000 / 1000) / (float) rate_interval;
-                    activity_in  = (float) (spanbr_in  * 8 / 1000 / 1000) / (float) rate_interval;
-                    activity_out = (float) (spanbr_out * 8 / 1000 / 1000) / (float) rate_interval;
+                    activity     = (rate_interval <= 0 ? 0 : (float) spanbr     * 8 / 1000 / 1000 / rate_interval);
+                    activity_in  = (rate_interval <= 0 ? 0 : (float) spanbr_in  * 8 / 1000 / 1000 / rate_interval);
+                    activity_out = (rate_interval <= 0 ? 0 : (float) spanbr_out * 8 / 1000 / 1000 / rate_interval);
                     break;
                 case ACTIVITY_MODE_MBYTES:
-                    activity     = (float) (spanbr     / 1024 / 1024) / (float) rate_interval;
-                    activity_in  = (float) (spanbr_in  / 1024 / 1024) / (float) rate_interval;
-                    activity_out = (float) (spanbr_out / 1024 / 1024) / (float) rate_interval;
+                    activity     = (rate_interval <= 0 ? 0 : (float) spanbr     / 1024 / 1024 / rate_interval);
+                    activity_in  = (rate_interval <= 0 ? 0 : (float) spanbr_in  / 1024 / 1024 / rate_interval);
+                    activity_out = (rate_interval <= 0 ? 0 : (float) spanbr_out / 1024 / 1024 / rate_interval);
                     break;
                 case ACTIVITY_MODE_GBITS:
-                    activity     = (float) (spanbr     * 8 / 1000 / 1000 / 1000) / (float) rate_interval;
-                    activity_in  = (float) (spanbr_in  * 8 / 1000 / 1000 / 1000) / (float) rate_interval;
-                    activity_out = (float) (spanbr_out * 8 / 1000 / 1000 / 1000) / (float) rate_interval;
+                    activity     = (rate_interval <= 0 ? 0 : (float) spanbr     * 8 / 1000 / 1000 / 1000 / rate_interval);
+                    activity_in  = (rate_interval <= 0 ? 0 : (float) spanbr_in  * 8 / 1000 / 1000 / 1000 / rate_interval);
+                    activity_out = (rate_interval <= 0 ? 0 : (float) spanbr_out * 8 / 1000 / 1000 / 1000 / rate_interval);
                     break;
                 case ACTIVITY_MODE_GBYTES:
-                    activity     = (float) (spanbr     / 1024 / 1024 / 1024) / (float) rate_interval;
-                    activity_in  = (float) (spanbr_in  / 1024 / 1024 / 1024) / (float) rate_interval;
-                    activity_out = (float) (spanbr_out / 1024 / 1024 / 1024) / (float) rate_interval;
+                    activity     = (rate_interval <= 0 ? 0 : (float) spanbr     / 1024 / 1024 / 1024 / rate_interval);
+                    activity_in  = (rate_interval <= 0 ? 0 : (float) spanbr_in  / 1024 / 1024 / 1024 / rate_interval);
+                    activity_out = (rate_interval <= 0 ? 0 : (float) spanbr_out / 1024 / 1024 / 1024 / rate_interval);
                     break;
             }
 
-            pps = (float) (spanpkt) / (float) (now - starttime);
-            pps_in = (float) (spanpkt_in) / (float) (now - starttime);
-            pps_out = (float) (spanpkt_out) / (float) (now - starttime);
+            pps     = (rate_interval <= 0 ? 0 : (float) spanpkt / rate_interval);
+            pps_in  = (rate_interval <= 0 ? 0 : (float) spanpkt_in / rate_interval);
+            pps_out = (rate_interval <= 0 ? 0 : (float) spanpkt_out / rate_interval);
 
             spanbr = spanbr_in = spanbr_out = 0;
             spanpkt = spanpkt_in = spanpkt_out = 0;
