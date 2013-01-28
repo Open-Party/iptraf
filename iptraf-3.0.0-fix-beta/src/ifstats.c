@@ -357,6 +357,12 @@ void ipstatshelp()
     tx_printkeyhelp("V", "-chg actv mode  ", stdscr, HIGHATTR, STATUSBARATTR);
 }
 
+void detipstatshelp()
+{
+    move(LINES - 1, 1);
+    tx_printkeyhelp("V", "-chg actv mode  ", stdscr, HIGHATTR, STATUSBARATTR);
+}
+
 void initiftab(struct iftab *table)
 {
     table->borderwin = newwin(LINES - 2, COLS, 1, 0);
@@ -779,7 +785,7 @@ void printdetails(struct iftotals *totals, WINDOW * win)
  * The detailed interface statistics function
  */
 
-void detstats(char *iface, const struct OPTIONS *options, int facilitytime,
+void detstats(char *iface, struct OPTIONS *options, int facilitytime,
               struct filterstate *ofilter)
 {
     int logging = options->logging;
@@ -840,6 +846,7 @@ void detstats(char *iface, const struct OPTIONS *options, int facilitytime,
     float peakpps_out = 0;
 
     char unitstring[7];
+    int need_update_rate;
 
     struct promisc_states *promisc_list;
     char err_msg[80];
@@ -898,6 +905,7 @@ void detstats(char *iface, const struct OPTIONS *options, int facilitytime,
     active_facility_countfile[0] = '\0';
 
     move(LINES - 1, 1);
+    detipstatshelp();
     stdexitkeyhelp();
     statwin = newwin(LINES - 2, COLS, 1, 0);
     statpanel = new_panel(statwin);
@@ -954,7 +962,7 @@ void detstats(char *iface, const struct OPTIONS *options, int facilitytime,
 
     isdnfd = -1;
     exitloop = 0;
-    dispmode(options->actmode, unitstring);
+    need_update_rate = 0;
 
     /*
      * Data-gathering loop
@@ -967,7 +975,9 @@ void detstats(char *iface, const struct OPTIONS *options, int facilitytime,
 
         rate_interval = now - starttime;
 
-        if (rate_interval >= 5) {
+        if (rate_interval >= 5 || need_update_rate) {
+            need_update_rate = 0;
+            dispmode(options->actmode, unitstring);
             wattrset(statwin, BOXATTR);
             printelapsedtime(statbegin, now, LINES - 3, 1, statwin);
             switch (options->actmode) {
@@ -1040,6 +1050,7 @@ void detstats(char *iface, const struct OPTIONS *options, int facilitytime,
             if (pps_out > peakpps_out)
                 peakpps_out = pps_out;
         }
+
         if ((now - startlog) >= options->logspan && logging) {
             writedstatlog(iface, options->actmode, activity, pps,
                           peakactivity, peakpps,
@@ -1104,6 +1115,15 @@ void detstats(char *iface, const struct OPTIONS *options, int facilitytime,
             case 'l':
             case 'L':
                 tx_refresh_screen();
+                break;
+
+            case 'v':
+                options->actmode = (options->actmode + 1) % ACTIVITY_MODE_MAX;
+                need_update_rate = 1;
+                break;
+            case 'V':
+                options->actmode = (options->actmode - 1 + ACTIVITY_MODE_MAX) % ACTIVITY_MODE_MAX;
+                need_update_rate = 1;
                 break;
 
             case 'Q':
