@@ -555,35 +555,35 @@ void update_flowrate(WINDOW * win, struct tcptableent *entry, time_t now,
     switch (mode) {
         case ACTIVITY_MODE_BITS:
             strcpy(units, "b/s ");
-            rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr * 8) / periodtime);
+            rate = (periodtime <= 0 ? 0 : (float) entry->spanbr * 8 / periodtime);
             break;
         case ACTIVITY_MODE_BYTES:
             strcpy(units, "B/s ");
-            rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr) / periodtime);
+            rate = (periodtime <= 0 ? 0 : (float) entry->spanbr / periodtime);
             break;
         case ACTIVITY_MODE_KBITS:
             strcpy(units, "Kb/s");
-            rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr * 8 / 1000) / periodtime);
+            rate = (periodtime <= 0 ? 0 : (float) entry->spanbr * 8 / 1000 / periodtime);
             break;
         case ACTIVITY_MODE_KBYTES:
             strcpy(units, "KB/s");
-            rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr / 1024) / periodtime);
+            rate = (periodtime <= 0 ? 0 : (float) entry->spanbr / 1024 / periodtime);
             break;
         case ACTIVITY_MODE_MBITS:
             strcpy(units, "Mb/s");
-            rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr * 8 / 1000 / 1000) / periodtime);
+            rate = (periodtime <= 0 ? 0 : (float) entry->spanbr * 8 / 1000 / 1000 / periodtime);
             break;
         case ACTIVITY_MODE_MBYTES:
             strcpy(units, "MB/s");
-            rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr / 1024 / 1024) / periodtime);
+            rate = (periodtime <= 0 ? 0 : (float) entry->spanbr / 1024 / 1024 / periodtime);
             break;
         case ACTIVITY_MODE_GBITS:
             strcpy(units, "Gb/s");
-            rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr * 8 / 1000 / 1000 / 1000) / periodtime);
+            rate = (periodtime <= 0 ? 0 : (float) entry->spanbr * 8 / 1000 / 1000 / 1000 / periodtime);
             break;
         case ACTIVITY_MODE_GBYTES:
             strcpy(units, "GB/s");
-            rate = (periodtime <= 0 ? 0 : ((float) entry->spanbr / 1024 / 1024 / 1024) / periodtime);
+            rate = (periodtime <= 0 ? 0 : (float) entry->spanbr / 1024 / 1024 / 1024 / periodtime);
             break;
     }
     mvwprintw(win, 0, COLS * 50 / 80 + 13, "%8.2f %s", rate, units);
