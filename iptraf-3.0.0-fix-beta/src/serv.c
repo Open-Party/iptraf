@@ -675,73 +675,51 @@ void update_serv_rates(struct portlist *list, WINDOW * win, int actmode,
     char act_unit[10];
     float inrate, outrate, totalrate;
     time_t now = time(NULL);
+    int periodtime = 0;
 
     dispmode(actmode, act_unit);
+    periodtime = now - list->barptr->starttime;
 
     switch (actmode) {
         case ACTIVITY_MODE_BITS:
-            inrate    = (float) (list->barptr->spans.spanbr_in * 8)
-                      / (float) (now - list->barptr->starttime);
-            outrate   = (float) (list->barptr->spans.spanbr_out * 8)
-                      / (float) (now - list->barptr->starttime);
-            totalrate = (float) (list->barptr->spans.spanbr * 8)
-                      / (float) (now - list->barptr->starttime);
+            inrate    = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr_in  * 8 / periodtime);
+            outrate   = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr_out * 8 / periodtime);
+            totalrate = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr     * 8 / periodtime);
             break;
         case ACTIVITY_MODE_BYTES:
-            inrate    = (float) (list->barptr->spans.spanbr_in)
-                      / (float) (now - list->barptr->starttime);
-            outrate   = (float) (list->barptr->spans.spanbr_out)
-                      / (float) (now - list->barptr->starttime);
-            totalrate = (float) (list->barptr->spans.spanbr)
-                      / (float) (now - list->barptr->starttime);
+            inrate    = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr_in  / periodtime);
+            outrate   = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr_out / periodtime);
+            totalrate = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr     / periodtime); 
             break;
         case ACTIVITY_MODE_KBITS:
-            inrate    = (float) (list->barptr->spans.spanbr_in * 8 / 1000)
-                      / (float) (now - list->barptr->starttime);
-            outrate   = (float) (list->barptr->spans.spanbr_out * 8 / 1000)
-                      / (float) (now - list->barptr->starttime);
-            totalrate = (float) (list->barptr->spans.spanbr * 8 / 1000)
-                      / (float) (now - list->barptr->starttime);
+            inrate    = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr_in  * 8 / 1000 / periodtime);
+            outrate   = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr_out * 8 / 1000 / periodtime);
+            totalrate = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr     * 8 / 1000 / periodtime);
             break;
         case ACTIVITY_MODE_KBYTES:
-            inrate    = (float) (list->barptr->spans.spanbr_in / 1024)
-                      / (float) (now - list->barptr->starttime);
-            outrate   = (float) (list->barptr->spans.spanbr_out / 1024)
-                      / (float) (now - list->barptr->starttime);
-            totalrate = (float) (list->barptr->spans.spanbr / 1024)
-                      / (float) (now - list->barptr->starttime);
+            inrate    = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr_in  / 1024 / periodtime);
+            outrate   = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr_out / 1024 / periodtime);
+            totalrate = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr     / 1024 / periodtime);
             break;
         case ACTIVITY_MODE_MBITS:
-            inrate    = (float) (list->barptr->spans.spanbr_in * 8 / 1000 / 1000)
-                      / (float) (now - list->barptr->starttime);
-            outrate   = (float) (list->barptr->spans.spanbr_out * 8 / 1000 / 1000)
-                      / (float) (now - list->barptr->starttime);
-            totalrate = (float) (list->barptr->spans.spanbr * 8 / 1000 / 1000)
-                      / (float) (now - list->barptr->starttime);
+            inrate    = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr_in  * 8 / 1000 / 1000 / periodtime);
+            outrate   = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr_out * 8 / 1000 / 1000 / periodtime);
+            totalrate = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr     * 8 / 1000 / 1000 / periodtime);
             break;
         case ACTIVITY_MODE_MBYTES:
-            inrate    = (float) (list->barptr->spans.spanbr_in / 1024 / 1024)
-                      / (float) (now - list->barptr->starttime);
-            outrate   = (float) (list->barptr->spans.spanbr_out / 1024 / 1024)
-                      / (float) (now - list->barptr->starttime);
-            totalrate = (float) (list->barptr->spans.spanbr / 1024 / 1024)
-                      / (float) (now - list->barptr->starttime);
+            inrate    = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr_in  / 1024 / 1024 / periodtime);
+            outrate   = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr_out / 1024 / 1024 / periodtime);
+            totalrate = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr     / 1024 / 1024 / periodtime);
             break;
         case ACTIVITY_MODE_GBITS:
-            inrate    = (float) (list->barptr->spans.spanbr_in * 8 / 1000 / 1000 / 1000)
-                      / (float) (now - list->barptr->starttime);
-            outrate   = (float) (list->barptr->spans.spanbr_out * 8 / 1000 / 1000 / 1000)
-                      / (float) (now - list->barptr->starttime);
-            totalrate = (float) (list->barptr->spans.spanbr * 8 / 1000 / 1000 / 1000)
-                      / (float) (now - list->barptr->starttime);
+            inrate    = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr_in  * 8 / 1000 / 1000 / 1000 / periodtime);
+            outrate   = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr_out * 8 / 1000 / 1000 / 1000 / periodtime);
+            totalrate = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr     * 8 / 1000 / 1000 / 1000 / periodtime);
             break;
         case ACTIVITY_MODE_GBYTES:
-            inrate    = (float) (list->barptr->spans.spanbr_in / 1024 / 1024 / 1024)
-                      / (float) (now - list->barptr->starttime);
-            outrate   = (float) (list->barptr->spans.spanbr_out / 1024 / 1024 / 1024)
-                      / (float) (now - list->barptr->starttime);
-            totalrate = (float) (list->barptr->spans.spanbr / 1024 / 1024 / 1024)
-                      / (float) (now - list->barptr->starttime);
+            inrate    = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr_in  / 1024 / 1024 / 1024 / periodtime);
+            outrate   = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr_out / 1024 / 1024 / 1024 / periodtime);
+            totalrate = (periodtime <= 0 ? 0 : (float) list->barptr->spans.spanbr     / 1024 / 1024 / 1024 / periodtime);
             break;
     }
 
